@@ -1,0 +1,26 @@
+pipeline:
+  pull-cache:
+    image: robertstettner/drone-s3cache:2
+    bucket: 131063299351-drone-cache
+    region: eu-west-1
+    mode: pull
+    <<: *when-feature-branch
+
+  test:
+    image: clojure:openjdk-11-tools-deps-1.10.1.502-slim-buster
+    commands: clj -A:dev:test
+    <<: *when-feature-branch
+
+  push-cache:
+    image: robertstettner/drone-s3cache:2
+    bucket: 131063299351-drone-cache
+    region: eu-west-1
+    folders: .cpcache
+    mode: push
+    <<: *when-feature-branch
+
+anchors:
+  when-feature-branch: &when-feature-branch
+    when:
+      branch:
+        exclude: master

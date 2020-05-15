@@ -15,7 +15,10 @@ pipeline:
     image: robertstettner/drone-s3cache:2
     bucket: 131063299351-drone-cache
     region: eu-west-1
-    folders: .cpcache
+    folders:
+      - .cpcache
+      - ~/.m2
+      - ~/.gitlibs
     mode: push
     <<: *when-feature-branch
 

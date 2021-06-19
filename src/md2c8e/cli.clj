@@ -33,8 +33,8 @@
                "    " message "\n"))))
 
 (defn- publish-cmd
-  [{:keys [source-dir root-page-id site-root-url username password]}]
-  (let [client (make-client site-root-url username password)
+  [{:keys [source-dir root-page-id site-root-url username api-key]}]
+  (let [client (make-client site-root-url username api-key)
         threads 10] ;; TODO: Make threads a command-line option
     (as-> (dir->page-tree (file source-dir) root-page-id) pt
           (replace-links pt source-dir)
@@ -74,8 +74,8 @@
                           :short   "u"
                           :type    :string
                           :default :present}
-                         {:option  "password"
-                          :short   "p"
+                         {:option  "api-key"
+                          :short   "a"
                           :type    :string
                           :default :present}]
                   :runs publish-cmd}]})

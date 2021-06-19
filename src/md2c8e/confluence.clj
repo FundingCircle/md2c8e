@@ -36,7 +36,7 @@
              {::anom/message msg}))))
 
 (defn make-client
-  [confluence-root-url username password]
+  [confluence-root-url username api-key]
   (let [urlf        (partial api-url (ensure-trailing-slash confluence-root-url))
         http-client (hc/build-http-client {:connect-timeout (:connect-timeout constants)
                                            :redirect-policy :never
@@ -45,7 +45,11 @@
         base-req-opts {:http-client http-client
                        :accept :json
                        :as :json
-                       :basic-auth {:user username, :pass password}
+                       :headers  {"Authorization" (->> api-key
+                                                       (str username ":")
+                                                       .getBytes
+                                                       (.encodeToString (java.util.Base64/getEncoder))
+                                                       (str "Basic "))}
                        :coerce :always
                        :timeout (:request-timeout constants)
                        :throw-exceptions? true}]

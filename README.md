@@ -33,7 +33,7 @@ clojure -Sdeps '{:deps {md2c8e {:git/url "https://github.com/FundingCircle/md2c8
         --root-page-id <int> \
         --site-root-url <url> \
         --username <str> \
-        --password <str>
+        --api-key <str>
 ```
 
 **NB:** make sure you replace the value of `:sha` (the `...`) with the SHA of the tip of the branch
